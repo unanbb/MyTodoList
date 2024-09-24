@@ -23,13 +23,15 @@ export default function App() {
 
   async function getTodos() {
     try {      //! 이행
-      const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos",{
-        headers: {
-          'content-type': 'application/json',
-          apikey: '5X8Z1k7M2vU5Q',
-          username: 'Grepp_KDT4_ParkYoungWoong',
-        }
-      });
+      // const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos",{
+      //   // method: 'GET', // 기본값, 생략 가능!!!
+      //   headers: {
+      //     'content-type': 'application/json',
+      //     apikey: '5X8Z1k7M2vU5Q',
+      //     username: 'Grepp_KDT4_ParkYoungWoong',
+      //   }
+      // });
+      const res = await fetch("../public/todo_list.json");
 
       const data = await res.json();
       console.log("응답 결과: ", data);
