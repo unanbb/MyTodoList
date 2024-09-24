@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import LoadingBar from "./components/LoadingBar";
+import TodoItem from "./components/TodoItem";
 
-function App() {
-  const [count, setCount] = useState(0)
+export type Todos = Todo[];
+export interface Todo {
+  id: string,
+  order: number,
+  title: string,
+  done: boolean,
+  createdAt: string,
+  updatedAt: string,
+}
+export default function App() {
+  const [todos, setTodos] = useState<Todos>([]); 
+  const [message, setMessage] = useState(""); // 타입 추론(inference) : ""
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    getTodos();
+  }, []);
+
+  async function getTodos() {
+    try {      //! 이행
+      const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos",{
+        headers: {
+          'content-type': 'application/json',
+          apikey: '5X8Z1k7M2vU5Q',
+          username: 'Grepp_KDT4_ParkYoungWoong',
+        }
+      });
+
+      const data = await res.json();
+      console.log("응답 결과: ", data);
+      setTodos(data);
+    } catch (error) {      //! 거부
+      if (error instanceof Error) {
+        const message = "에러가 발생했어요!";
+        console.error("에러 발생: ", message);
+        setMessage(message);
+      } // 타입 가드
+    } finally {      //! 무조건 실행
+      setLoading(false);
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>{loading && <LoadingBar />}</div>
+      <div>{message}</div>
+      <ul>
+        {todos.map((todo) => (
+          <React.Fragment key={todo.id}>
+            <TodoItem todoItem={todo}/>
+          </React.Fragment>
+        ))}
+      </ul>
     </>
-  )
+  );
 }
-
-export default App
