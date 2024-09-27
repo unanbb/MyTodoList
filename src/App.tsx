@@ -4,12 +4,12 @@ import TodoItem from "./components/TodoItem";
 
 export type Todos = Todo[];
 export interface Todo {
-  id: string,
-  order: number,
-  title: string,
-  done: boolean,
-  createdAt: string,
-  updatedAt: string,
+  id: string;
+  order: number;
+  title: string;
+  done: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 export default function App() {
   const [todos, setTodos] = useState<Todos>([]); 
@@ -23,15 +23,15 @@ export default function App() {
 
   async function getTodos() {
     try {      //! 이행
-      // const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos",{
-      //   // method: 'GET', // 기본값, 생략 가능!!!
-      //   headers: {
-      //     'content-type': 'application/json',
-      //     apikey: '5X8Z1k7M2vU5Q',
-      //     username: 'Grepp_KDT4_ParkYoungWoong',
-      //   }
-      // });
-      const res = await fetch("../public/todo_list.json");
+      const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos",{
+        // method: 'GET', // 기본값, 생략 가능!!!
+        headers: {
+          'content-type': 'application/json',
+          apikey: '5X8Z1k7M2vU5Q',
+          username: 'Grepp_KDT4_ParkYoungWoong',
+        }
+      });
+      // const res = await fetch("../public/todo_list.json");
 
       const data = await res.json();
       console.log("응답 결과: ", data);
@@ -54,7 +54,7 @@ export default function App() {
       <ul>
         {todos.map((todo) => (
           <React.Fragment key={todo.id}>
-            <TodoItem todoItem={todo}/>
+            <TodoItem todoItem={todo} getTodos={getTodos}/>
           </React.Fragment>
         ))}
       </ul>

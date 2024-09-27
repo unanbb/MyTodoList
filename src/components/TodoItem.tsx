@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Todo } from "../App";
 
-export default function TodoItem({ todoItem }: { todoItem: Todo }) {
+export default function TodoItem({ 
+  todoItem, 
+  getTodos 
+}: { 
+  todoItem: Todo; 
+  getTodos:() => void; // getTodos가 매개변수가 없고, return값도 없음. 
+}) {
   const [title, setTitle] = useState(todoItem.title); // name으로 각 input창 초기화
   
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
@@ -11,7 +17,7 @@ export default function TodoItem({ todoItem }: { todoItem: Todo }) {
 
   async function updateTodo(todoItem: Todo, title: string) { //코드 추상화 : 함수 이름만으로 무슨 로직인지 쉽게 알 수 있도록
     console.log('서버로 전송!', title);
-
+    
     const res = await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`,{ // 이 데이터의 id부분을 수정하려해.
       method: 'PUT',
       headers: {
@@ -27,7 +33,8 @@ export default function TodoItem({ todoItem }: { todoItem: Todo }) {
     // 위에서 응답받은 데이터를 사용하기 위한 코드
     const data = await res.json(); // 데이터 분석
     console.log(data);
-    setTitle(data.title);
+
+    getTodos();
   }
 
   async function deleteTodo(e: React.MouseEvent<HTMLButtonElement>) {
@@ -45,14 +52,14 @@ export default function TodoItem({ todoItem }: { todoItem: Todo }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <li>
+    <li>
+      <form onSubmit={handleSubmit}>
         {todoItem.title}
         <input value={title} onChange={(e)=> setTitle(e.target.value)}/>
         <button type='submit'>수정</button>
         <button onClick={deleteTodo}>삭제</button>
-      </li>
-    </form>
+      </form>
+    </li>
   );
 }
 
