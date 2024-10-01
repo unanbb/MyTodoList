@@ -63,6 +63,11 @@ export default function App() {
     })
   }
 
+  function deleteTodo (todoToDelete: Todo) {
+    setTodos(todos => todos.filter(todo => !(todo.id === todoToDelete.id)));      // todos에서 삭제할 todo를 제외한 나머지 todos를 반환)
+  }
+
+
   return (
     <>
       <div>{loading && <LoadingBar />}</div>
@@ -70,7 +75,7 @@ export default function App() {
       <ul>
         {todos.map(todo => (
           <React.Fragment key={todo.id}>
-            <TodoItem todoItem={todo} setTodo={setTodo}/>
+            <TodoItem todoItem={todo} setTodo={setTodo} deleteTodo={deleteTodo} />
           </React.Fragment>
         ))}
       </ul>

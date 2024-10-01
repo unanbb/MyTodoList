@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { Todo } from '../App'
 
 export default function TodoItem({
-   todoItem,
-    setTodo 
+  todoItem,
+  setTodo,
+  deleteTodo 
   }: { 
     todoItem: Todo;
     setTodo: (updatedTodo: Todo) => void;
+    deleteTodo: (todoToDelete: Todo) => void;
   }) {
   const [title, setTitle] = useState(todoItem.title) // name으로 각 input창 초기화
 
@@ -50,7 +52,7 @@ export default function TodoItem({
     
   }
 
-  async function deleteTodo(e: React.MouseEvent<HTMLButtonElement>) {
+  async function eraseTodo(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
     await fetch(
       `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`,
@@ -66,6 +68,8 @@ export default function TodoItem({
     ) //전송만 함. 응답은 받아도 쓸데가 없음.
 
     //삭제는 사용/분석할 데이터가 없음, fetch 이후 true/false값만 반환
+  
+    deleteTodo(todoItem); // 해당 todo만 삭제
   }
 
   return (
@@ -77,7 +81,7 @@ export default function TodoItem({
           onChange={e => setTitle(e.target.value)}
         />
         <button type="submit">수정</button>
-        <button onClick={deleteTodo}>삭제</button>
+        <button onClick={eraseTodo}>삭제</button>
       </form>
     </li>
   )
