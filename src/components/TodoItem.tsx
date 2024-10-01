@@ -49,6 +49,8 @@ export default function TodoItem({
     }); //전송만 함. 응답은 받아도 쓸데가 없음.
 
     //삭제는 사용/분석할 데이터가 없음, fetch 이후 true/false값만 반환
+
+    getTodos();
   }
 
   return (
