@@ -1,28 +1,28 @@
-import { useState } from 'react'
-import { Todo } from '../App'
+import { useState } from 'react';
+import { Todo } from '../App';
 
 export default function TodoItem({
   todoItem,
   setTodo,
-  deleteTodo 
-  }: { 
-    todoItem: Todo;
-    setTodo: (updatedTodo: Todo) => void;
-    deleteTodo: (todoToDelete: Todo) => void;
-  }) {
-  const [title, setTitle] = useState(todoItem.title) // name으로 각 input창 초기화
+  deleteTodo
+}: {
+  todoItem: Todo;
+  setTodo: (updatedTodo: Todo) => void;
+  deleteTodo: (todoToDelete: Todo) => void;
+}) {
+  const [title, setTitle] = useState(todoItem.title); // name으로 각 input창 초기화
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    updateTodo(todoItem, title)
+    e.preventDefault();
+    updateTodo(todoItem, title);
   }
 
   async function updateTodo(todoItem: Todo, title: string) {
     //코드 추상화 : 함수 이름만으로 무슨 로직인지 쉽게 알 수 있도록
-    
+
     //낙관적 업데이트
-    setTodo({...todoItem, title})
-    try{
+    setTodo({ ...todoItem, title });
+    try {
       const res = await fetch(
         `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`,
         {
@@ -38,22 +38,20 @@ export default function TodoItem({
             done: todoItem.done
           })
         }
-      )
+      );
 
-      const updatedTodo: Todo = await res.json() // 데이터 분석
-      console.log(updatedTodo, title)
+      const updatedTodo: Todo = await res.json(); // 데이터 분석
+      console.log(updatedTodo, title);
     } catch (error) {
       console.error(error);
       setTodo(todoItem);
     }
-    
+
     // 위에서 응답받은 데이터를 사용하기 위한 코드
-    
-    
   }
 
   async function eraseTodo(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
+    e.preventDefault();
     await fetch(
       `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`,
       {
@@ -65,10 +63,10 @@ export default function TodoItem({
           username: 'Grepp_KDT4_ParkYoungWoong'
         }
       }
-    ) //전송만 함. 응답은 받아도 쓸데가 없음.
+    ); //전송만 함. 응답은 받아도 쓸데가 없음.
 
     //삭제는 사용/분석할 데이터가 없음, fetch 이후 true/false값만 반환
-  
+
     deleteTodo(todoItem); // 해당 todo만 삭제
   }
 
@@ -84,5 +82,5 @@ export default function TodoItem({
         <button onClick={eraseTodo}>삭제</button>
       </form>
     </li>
-  )
+  );
 }
