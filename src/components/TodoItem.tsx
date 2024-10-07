@@ -30,8 +30,8 @@ export default function TodoItem({
           method: 'PUT',
           headers: {
             'content-type': 'application/json',
-            apikey: '5X8Z1k7M2vU5Q',
-            username: 'Grepp_KDT4_ParkYoungWoong'
+            apikey: 'W7G4K9J2BDFE1',
+            username: 'FE1_LeeYunHwan'
           },
           body: JSON.stringify({
             title: title, // : 값 title 생략가능! -> 속성과 값의 이름이 같아서
@@ -52,18 +52,15 @@ export default function TodoItem({
 
   async function eraseTodo(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    await fetch(
-      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`,
-      {
-        // 이 id를 가진 데이터를 삭제하려해.
-        method: 'DELETE',
-        headers: {
-          'content-type': 'application/json',
-          apikey: '5X8Z1k7M2vU5Q',
-          username: 'Grepp_KDT4_ParkYoungWoong'
-        }
+    await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`, {
+      // 이 id를 가진 데이터를 삭제하려해.
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        apikey: 'W7G4K9J2BDFE1',
+        username: 'FE1_LeeYunHwan'
       }
-    ); //전송만 함. 응답은 받아도 쓸데가 없음.
+    }); //전송만 함. 응답은 받아도 쓸데가 없음.
 
     //삭제는 사용/분석할 데이터가 없음, fetch 이후 true/false값만 반환
 
@@ -76,7 +73,7 @@ export default function TodoItem({
         {todoItem.title}
         <input
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <button type="submit">수정</button>
         <button onClick={eraseTodo}>삭제</button>

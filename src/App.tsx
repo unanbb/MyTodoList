@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LoadingBar from './components/LoadingBar';
 import TodoItem from './components/TodoItem';
+import TodoCreator from './components/TodoCreator';
 
 export type Todos = Todo[];
 export interface Todo {
@@ -20,20 +21,18 @@ export default function App() {
     getTodos();
   }, []);
 
+  //? 데이터 목록 가져오기
   async function getTodos() {
     try {
       //! 이행
-      const res = await fetch(
-        'https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos',
-        {
-          // method: 'GET', // 기본값, 생략 가능!!!
-          headers: {
-            'content-type': 'application/json',
-            apikey: '5X8Z1k7M2vU5Q',
-            username: 'Grepp_KDT4_ParkYoungWoong'
-          }
+      const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos', {
+        // method: 'GET', // 기본값, 생략 가능!!!
+        headers: {
+          'content-type': 'application/json',
+          apikey: 'W7G4K9J2BDFE1',
+          username: 'FE1_LeeYunHwan'
         }
-      );
+      });
       // const res = await fetch("../public/todo_list.json");
 
       const data = await res.json();
@@ -52,10 +51,11 @@ export default function App() {
     }
   }
 
+  //? 개별 데이터 업데이트
   function setTodo(updatedTodo: Todo) {
     console.log(123);
-    setTodos(todos => {
-      return todos.map(todo => {
+    setTodos((todos) => {
+      return todos.map((todo) => {
         if (todo.id === updatedTodo.id) {
           return updatedTodo;
         }
@@ -64,16 +64,18 @@ export default function App() {
     });
   }
 
+  //? 개별 데이터 삭제
   function deleteTodo(todoToDelete: Todo) {
-    setTodos(todos => todos.filter(todo => !(todo.id === todoToDelete.id))); // todos에서 삭제할 todo를 제외한 나머지 todos를 반환)
+    setTodos((todos) => todos.filter((todo) => !(todo.id === todoToDelete.id))); // todos에서 삭제할 todo를 제외한 나머지 todos를 반환)
   }
 
   return (
     <>
+      <TodoCreator getTodos={getTodos} />
       <div>{loading && <LoadingBar />}</div>
       <div>{message}</div>
       <ul>
-        {todos.map(todo => (
+        {todos.map((todo) => (
           <React.Fragment key={todo.id}>
             <TodoItem
               todoItem={todo}
