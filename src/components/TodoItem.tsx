@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Todo } from '../App';
 
-export default function TodoItem({
-  todoItem,
-  setTodo,
-  deleteTodo
-}: {
+interface TodoItemProps {
   todoItem: Todo;
   setTodo: (updatedTodo: Todo) => void;
   deleteTodo: (todoToDelete: Todo) => void;
-}) {
+}
+
+export default function TodoItem({ todoItem, setTodo, deleteTodo }: TodoItemProps) {
   const [title, setTitle] = useState(todoItem.title); // name으로 각 input창 초기화
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
