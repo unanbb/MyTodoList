@@ -5,6 +5,5 @@
   "bracketSameLine": true,
   "endOfLine": "auto",
   "trailingComma": "none",
-  "arrowParens": "avoid",
-  "printWitdh": 100
+  "printWidth": 100
 }
