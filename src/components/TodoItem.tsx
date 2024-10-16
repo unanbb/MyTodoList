@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Todo } from '../App';
+import { Todo } from '../routes/App';
 
 interface TodoItemProps {
   todoItem: Todo;

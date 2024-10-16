@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import LoadingBar from './components/LoadingBar';
-import TodoItem from './components/TodoItem';
-import TodoCreator from './components/TodoCreator';
+import LoadingBar from '@/components/LoadingBar';
+import TodoItem from '@/components/TodoItem';
+import TodoCreator from '@/components/TodoCreator';
 
 export type Todos = Todo[];
 export interface Todo {
