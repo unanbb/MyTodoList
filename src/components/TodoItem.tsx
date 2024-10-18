@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Todo } from '../routes/App';
+import { Todo } from '../routes/Main';
 
 interface TodoItemProps {
   todoItem: Todo;
@@ -14,12 +14,12 @@ export default function TodoItem({ todoItem, setTodo, deleteTodo }: TodoItemProp
     e.preventDefault();
     updateTodo(todoItem, title);
   }
-
+  //! Todo 수정
   async function updateTodo(todoItem: Todo, title: string) {
     //코드 추상화 : 함수 이름만으로 무슨 로직인지 쉽게 알 수 있도록
 
     //낙관적 업데이트
-    setTodo({ ...todoItem, title });
+    setTodo({ ...todoItem, title }); //? Title 이름 변경
     try {
       const res = await fetch(
         `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`,
@@ -43,11 +43,11 @@ export default function TodoItem({ todoItem, setTodo, deleteTodo }: TodoItemProp
     } catch (error) {
       console.error(error);
       setTodo(todoItem);
-    }
+    } //? Todo 수정
 
     // 위에서 응답받은 데이터를 사용하기 위한 코드
   }
-
+  //! Todo 삭제
   async function eraseTodo(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todoItem.id}`, {
