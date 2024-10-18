@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Outlet } from 'react-router-dom'; //하위 페이지를 어디에 출력할지 배치하는 컴포넌트
 import LoadingBar from '@/components/LoadingBar';
 import TodoItem from '@/components/TodoItem';
 import TodoCreator from '@/components/TodoCreator';
@@ -85,6 +86,7 @@ export default function App() {
           </React.Fragment>
         ))}
       </ul>
+      <Outlet />
     </>
   );
 }
